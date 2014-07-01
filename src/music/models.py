@@ -21,3 +21,6 @@ class Playlist(models.Model):
     tracks = models.ManyToManyField(Track, related_name="present_in_lists")
     def __str__(self):
         return self.title
+    def get_tracks_count(self):
+        return len(self.tracks.all())
+    get_tracks_count.short_description = 'Кол-во треков в плейлисте'
