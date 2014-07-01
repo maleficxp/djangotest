@@ -1,15 +1,18 @@
-from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.views import generic
 
-from django.http import HttpResponse
 from music.models import Playlist
 
-def index(request):
-    playlists = Playlist.objects.order_by('-created_time')
-    context = {'playlists': playlists}
-    return render(request, 'music/index.html', context)
 
-def playlist(request, playlist_id):
-    playlist = get_object_or_404(Playlist, pk=playlist_id)
-    return render(request, 'music/playlist.html', {'playlist': playlist})
+class IndexView(generic.ListView):
+    template_name = 'music/index.html'
+    context_object_name = 'playlists'
+    def get_queryset(self):
+        return Playlist.objects.order_by('-created_time')
 
+class PlaylistView(generic.edit.UpdateView):
+    model = Playlist
+    template_name = 'music/playlist.html'
+
+class PlaylistAddView(generic.edit.CreateView):
+    model = Playlist
+    template_name = 'music/playlist.html'

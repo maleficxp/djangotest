@@ -1,9 +1,11 @@
 {% if playlists %}
     <ul>
     {% for playlist in playlists %}
-        <li><a href="{% url 'music:playlist' playlist.id %}">{{ playlist }}</a></li>
+        <li><a href="{% url 'music:playlist' playlist.id %}">{{ playlist.title }}</a> (создан {{playlist.created_time}})</li>
     {% endfor %}
     </ul>
 {% else %}
     <p>Нет ни одного плейлиста.</p>
 {% endif %}
+
+<a href="{% url 'music:playlist_add' %}">Добавить плейлист</a>

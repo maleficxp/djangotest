@@ -1,12 +1,28 @@
 <h1>{{ playlist.title }}</h1>
 
-<form action="{% url 'music:playlist' playlist.id %}" method="post">
+<form action="" method="post">
 {% csrf_token %}
 
-<ul>
-{% for track in playlist.tracks.all %}
-    <li>{{ track }}</li>
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
 {% endfor %}
-</ul>
+
+<a href="{% url 'music:index' %}">К списку плейлистов</a>
+
+<table>
+{% for field in form.visible_fields %}
+    <tr>
+        <td>      
+            {{ field.label }}      
+        </td>
+        <td title="{{ field.help_text }}">
+            {{ field.errors }}
+            {{ field }}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+<input type="submit" value="Сохранить" />
 
 </form>
