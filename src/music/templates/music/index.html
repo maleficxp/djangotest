@@ -1,0 +1,9 @@
+{% if playlists %}
+    <ul>
+    {% for playlist in playlists %}
+        <li><a href="{% url 'music:playlist' playlist.id %}">{{ playlist }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Нет ни одного плейлиста.</p>
+{% endif %}

@@ -1,0 +1,12 @@
+<h1>{{ playlist.title }}</h1>
+
+<form action="{% url 'music:playlist' playlist.id %}" method="post">
+{% csrf_token %}
+
+<ul>
+{% for track in playlist.tracks.all %}
+    <li>{{ track }}</li>
+{% endfor %}
+</ul>
+
+</form>
