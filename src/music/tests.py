@@ -28,16 +28,16 @@ class PlaylistViewTests(TestCase):
         """
         response = self.client.get(reverse('music:index'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Нет ни одного плейлиста.")
+        self.assertContains(response, u"Нет ни одного плейлиста.")
         self.assertQuerysetEqual(response.context['playlists'], [])
         
     def test_index_view_with_a_playlist(self):
         """
         Playlist should be displayed on the index page.
         """
-        create_playlist(title="Тестовый плейлист")
+        create_playlist(title=u"Тестовый плейлист")
         response = self.client.get(reverse('music:index'))
         self.assertQuerysetEqual(
             response.context['playlists'],
-            ['<Playlist: Тестовый плейлист>']
+            [u'<Playlist: Тестовый плейлист>']
         )
