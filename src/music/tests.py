@@ -2,6 +2,7 @@
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 # Create your tests here.
 
@@ -14,12 +15,13 @@ class TrackMethodTests(TestCase):
         track string presentation must be equal to artist and title
         """
         artist = Artist(name="Artist Name")
+        artist.save()
         track = Track(artist=artist, title="Track Title")
         self.assertEqual(str(track), artist.name + ' - ' + track.title)
         
         
-def create_playlist(title):
-    return Playlist.objects.create(title=title)
+def create_playlist(title, user):
+    return Playlist.objects.create(title=title, user=user)
 
 class PlaylistViewTests(TestCase):
     def test_index_view_with_no_playlists(self):
@@ -31,13 +33,28 @@ class PlaylistViewTests(TestCase):
         self.assertContains(response, u"Нет ни одного плейлиста.")
         self.assertQuerysetEqual(response.context['playlists'], [])
         
+    def test_index_view_with_no_playlists_for_anonymous(self):
+        """
+        If user not logged, an appropriate message should be displayed.
+        """
+        user = User.objects.create_user('test', 'test@test.com', 'test')
+        create_playlist(title="Test playlist", user=user)
+
+        response = self.client.get(reverse('music:index'))
+        self.assertContains(response, u"Нет ни одного плейлиста.")
+        self.assertQuerysetEqual(response.context['playlists'], [])
+        
     def test_index_view_with_a_playlist(self):
         """
         Playlist should be displayed on the index page.
         """
-        create_playlist(title=u"Тестовый плейлист")
+        user = User.objects.create_user('test', 'test@test.com', 'test')
+        self.client.login(username='test',password='test')
+        
+        create_playlist(title="Test playlist", user=user)
+        
         response = self.client.get(reverse('music:index'))
         self.assertQuerysetEqual(
             response.context['playlists'],
-            [u'<Playlist: Тестовый плейлист>']
+            ['<Playlist: Test playlist>']
         )

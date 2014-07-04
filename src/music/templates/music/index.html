@@ -1,6 +1,12 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}" />
 
+{% if user.is_authenticated %}
+  <a href="{% url 'django.contrib.auth.views.logout' %}">Выйти</a>
+{% else %}
+  <a href="{% url 'django.contrib.auth.views.login' %}">Войти</a>
+{% endif %}
+
 {% if playlists %}
     <ul>
     {% for playlist in playlists %}
