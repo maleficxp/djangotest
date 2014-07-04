@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.db import models
 from django.conf import settings
@@ -33,9 +33,4 @@ class Playlist(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('music:playlist', kwargs={'pk':self.pk})
-    
-#     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-#         if None == self.user:
-# #            User = get_user_model()
-#             self.user = User()
-#         return super(Playlist, self).save(force_insert, force_update, using, update_fields)
+

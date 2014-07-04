@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'music'
+    'music',
+    'accounts'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,3 +88,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
+
+ADMIN_LOGIN = "admin"
+ADMIN_PASSWORD = "admin"
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'djangotest.auth.backends.SettingsBackend',
+)
+
+AUTH_USER_MODEL = 'accounts.MyUser'
+

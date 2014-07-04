@@ -1,8 +1,8 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 # Create your tests here.
 
@@ -37,6 +37,7 @@ class PlaylistViewTests(TestCase):
         """
         If user not logged, an appropriate message should be displayed.
         """
+        User = get_user_model()
         user = User.objects.create_user('test', 'test@test.com', 'test')
         create_playlist(title="Test playlist", user=user)
 
@@ -48,6 +49,7 @@ class PlaylistViewTests(TestCase):
         """
         Playlist should be displayed on the index page.
         """
+        User = get_user_model()
         user = User.objects.create_user('test', 'test@test.com', 'test')
         self.client.login(username='test',password='test')
         
